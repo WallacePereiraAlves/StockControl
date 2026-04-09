@@ -1,0 +1,16 @@
+# Compilados
+/bin/
+/target/
+
+# IDEs
+.idea/
+.vscode/
+*.classpath
+*.project
+*.settings/
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
