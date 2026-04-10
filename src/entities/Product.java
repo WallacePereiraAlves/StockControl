@@ -62,7 +62,7 @@ public class Product {
 		return registerDate;
 	}
 
-	public double TotalValueInStock() {
+	public double totalValueInStock() {
 		return price * quantity;
 	}
 
@@ -70,18 +70,18 @@ public class Product {
 		this.quantity += quantity;
 	}
 
-	public void removeProducts(int quantity) {
+	public boolean removeProducts(int quantity) {
 		if (quantity <= this.quantity) {
 			this.quantity -= quantity;
-		} else {
-			System.out.println("Erro: Quantidade maior que o estoque disponível.");
+			return true;
 		}
+		return false;
 	}
 
 	@Override
 	public String toString() {
 		return String.format("ID: %d | %s (%s), $%.2f, %d unidades, Total: $%.2f, Cadastrado em: %s", id, name,
-				category, price, quantity, TotalValueInStock(), registerDate);
+				category, price, quantity, totalValueInStock(), registerDate);
 	}
 
 }

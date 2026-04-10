@@ -2,148 +2,167 @@ package services;
 
 import java.util.List;
 import java.util.Scanner;
+
 import entities.Product;
 import entities.enums.ProductCategory;
 
 public class ProductService {
 
-	private List<Product> productList;
-	private Scanner sc;
+    private List<Product> productList;
+    private Scanner sc;
 
-	public ProductService(List<Product> list, Scanner sc) {
-		this.productList = list;
-		this.sc = sc;
-	}
+    public ProductService(List<Product> list, Scanner sc) {
+        this.productList = list;
+        this.sc = sc;
+    }
 
-	public void registerProduct() {
+    public void registerProduct() {
 
-		System.out.println();
-		System.out.println("Entre com os dados do produto: ");
-		System.out.println();
+        System.out.println();
+        System.out.println("Entre com os dados do produto:");
+        System.out.println();
 
-		System.out.print("Nome: ");
-		String name = sc.nextLine();
+        String name = readString("Nome: ");
+        double price = readDouble("Preço: ");
+        int quantity = readInt("Quantidade no estoque: ");
+        ProductCategory category = readCategory();
 
-		System.out.print("Preço: ");
-		double price = sc.nextDouble();
-		sc.nextLine();
+        Product newProduct = new Product(name, price, quantity, category);
+        productList.add(newProduct);
 
-		System.out.print("Quantidade no estoque: ");
-		int quantity = sc.nextInt();
-		sc.nextLine();
+        System.out.println();
+        System.out.println("Produto adicionado com sucesso!");
+    }
 
-		System.out.print("Categoria (ALIMENTO, BEBIDA, ELETRONICO, VESTUARIO, LIVRO, OUTRO): ");
-		String categoryStr = sc.nextLine().toUpperCase();
+    public void increaseQuantity() {
 
-		ProductCategory category = ProductCategory.valueOf(categoryStr);
+        System.out.println();
+        int productId = readInt("Digite o ID do produto: ");
 
-		Product newProduct = new Product(name, price, quantity, category);
+        Product p = findProductById(productId);
 
-		productList.add(newProduct);
+        if (p == null) {
+            System.out.println("Produto não encontrado.");
+            return;
+        }
 
-		System.out.println();
-		System.out.println("Produto adicionado com sucesso!");
-		clearConsole();
-	}
+        int quantity = readInt("Digite a quantidade a ser adicionada: ");
+        p.addProducts(quantity);
 
-	public void increaseQuantity() {
+        System.out.println();
+        System.out.println("Estoque atualizado.");
+    }
 
-		System.out.println();
-		System.out.print("Digite o nome do produto: ");
-		String productName = sc.nextLine();
+    public void decreaseQuantity() {
 
-		boolean productFound = false;
+        System.out.println();
+        int productId = readInt("Digite o ID do produto: ");
 
-		for (Product p : productList) {
+        Product p = findProductById(productId);
 
-			if (p.getName().equalsIgnoreCase(productName)) {
-				System.out.print("Digite a quantidade a ser adicionada no estoque: ");
-				int quantity = sc.nextInt();
-				sc.nextLine();
+        if (p == null) {
+            System.out.println("Produto não encontrado.");
+            return;
+        }
 
-				p.addProducts(quantity);
-				System.out.println();
-				System.out.println("Estoque atualizado.");
-				productFound = true;
-				clearConsole();
-				break;
-			}
-		}
+        int quantity = readInt("Digite a quantidade a ser retirada: ");
+        boolean success = p.removeProducts(quantity);
 
-		if (!productFound) {
-			System.out.println("Produto não encontrado.");
-			clearConsole();
-		}
+        if (success) {
+            System.out.println();
+            System.out.println("Estoque atualizado.");
+        } else {
+            System.out.println("Erro: Quantidade maior que o estoque disponível.");
+        }
+    }
 
-	}
+    public void deleteProduct() {
 
-	public void decreaseQuantity() {
-		System.out.println();
-		System.out.print("Digite o nome do produto: ");
-		String productName = sc.nextLine();
-		boolean productFound = false;
+        System.out.println();
+        int productId = readInt("Digite o ID do produto que deseja excluir: ");
 
-		for (Product p : productList) {
+        Product p = findProductById(productId);
 
-			if (p.getName().equalsIgnoreCase(productName)) {
-				System.out.print("Digite a quantidade a ser retirada do estoque: ");
-				int quantity = sc.nextInt();
-				sc.nextLine();
-				p.removeProducts(quantity);
-				System.out.println();
-				System.out.println("Estoque atualizado.");
-				productFound = true;
-				clearConsole();
-				break;
-			}
-		}
+        if (p == null) {
+            System.out.println("Produto não encontrado.");
+            return;
+        }
 
-		if (!productFound) {
-			System.out.println("Produto não encontrado.");
-			clearConsole();
-		}
+        productList.remove(p);
+        System.out.println("Produto removido com sucesso!");
+    }
 
-	}
+    public void showProductList() {
 
-	public void deleteProduct() {
-		System.out.println();
-		System.out.print("Digite o nome do produto que deseja excluir: ");
-		String productName = sc.nextLine();
+        System.out.println();
+        System.out.println("Lista de produtos cadastrados:");
+        System.out.println();
 
-		Product toRemove = null;
+        for (Product p : productList) {
+            System.out.println(p);
+        }
+    }
 
-		for (Product p : productList) {
 
-			if (p.getName().equalsIgnoreCase(productName)) {
-				toRemove = p;
-				break;
-			}
+    private Product findProductById(int id) {
+        for (Product p : productList) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
 
-		}
+    private int readInt(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                int value = Integer.parseInt(sc.nextLine());
+                return value;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite um número inteiro.");
+            }
+        }
+    }
 
-		if (toRemove != null) {
-			productList.remove(toRemove);
-			System.out.println("Produto removido com sucesso!");
-		} else {
-			System.out.println("Produto não encontrado.");
-		}
+    private double readDouble(String message) {
+        while (true) {
+            try {
+                System.out.print(message);
+                double value = Double.parseDouble(sc.nextLine());
+                return value;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite um número válido.");
+            }
+        }
+    }
 
-		clearConsole();
+    private String readString(String message) {
+        System.out.print(message);
+        return sc.nextLine();
+    }
 
-	}
+    private ProductCategory readCategory() {
+    	
+        ProductCategory category = null;
 
-	public void showProductList() {
-		System.out.println();
-		System.out.println("Lista de produtos cadastrados: ");
-		System.out.println();
-		for (Product p : productList) {
-			System.out.println(p);
-		}
+        while (category == null) {
+            System.out.println();
+            System.out.println("Categorias disponíveis:");
+            for (ProductCategory c : ProductCategory.values()) {
+                System.out.println("- " + c);
+            }
 
-		clearConsole();
-	}
+            System.out.print("Digite a categoria: ");
+            String categoryStr = sc.nextLine().toUpperCase();
 
-	public void clearConsole() {
-		System.out.println("\n");
-	}
+            try {
+                category = ProductCategory.valueOf(categoryStr);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Categoria inválida. Tente novamente.");
+            }
+        }
+
+        return category;
+    }
 }

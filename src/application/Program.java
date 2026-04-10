@@ -47,7 +47,6 @@ public class Program {
 			default:
 				System.out.println();
 				System.out.println("Opção inválida. Por favor, escolha uma opção válida: ");
-				service.clearConsole();
 				break;
 			}
 		}
