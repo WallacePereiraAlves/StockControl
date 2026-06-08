@@ -1,4 +1,4 @@
-package entities.enums;
+package model.enums;
 
 public enum ProductCategory {
 	ALIMENTO, BEBIDA, ELETRONICO, VESTUARIO, LIVRO, OUTRO

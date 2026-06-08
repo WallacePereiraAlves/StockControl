@@ -1,7 +1,8 @@
-package entities;
+package model;
 
 import java.time.LocalDate;
-import entities.enums.ProductCategory;
+
+import model.enums.ProductCategory;
 
 public class Product {
 

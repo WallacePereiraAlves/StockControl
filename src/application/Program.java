@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-import entities.Product;
-import services.ProductService;
+import model.Product;
+import service.ProductService;
+import view.Menu;
 
 public class Program {
 
@@ -16,11 +17,13 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 		List<Product> list = new ArrayList<>();
 		ProductService service = new ProductService(list, sc);
-
+		Menu menu = new Menu(service);
+		
 		String option = "";
 
 		while (!option.equals("sair")) {
-			displayMenu();
+			
+			menu.displayMenu();
 			System.out.print("Digite uma opção: ");
 			option = sc.nextLine().toLowerCase();
 
@@ -56,22 +59,4 @@ public class Program {
 		sc.close();
 	}
 
-	private static void displayMenu() {
-		System.out.println("------------------------------");
-		System.out.println("----- CONTROLE DE ESTOQUE ----");
-		System.out.println("------------------------------");
-		System.out.println();
-		System.out.println("------------ MENU ------------");
-		System.out.println();
-		System.out.println("1. Adicionar produto");
-		System.out.println("2. Adicionar quantidade ao estoque");
-		System.out.println("3. Retirar uma quantidade do estoque");
-		System.out.println("4. Remover produto");
-		System.out.println("5. Ver lista de produtos");
-		System.out.println();
-		System.out.println("Digite 'sair' para encerrar o programa");
-		System.out.println();
-		System.out.println("------------------------------");
-		System.out.println();
-	}
 }

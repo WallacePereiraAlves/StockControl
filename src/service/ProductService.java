@@ -1,10 +1,10 @@
-package services;
+package service;
 
 import java.util.List;
 import java.util.Scanner;
 
-import entities.Product;
-import entities.enums.ProductCategory;
+import model.Product;
+import model.enums.ProductCategory;
 
 public class ProductService {
 
