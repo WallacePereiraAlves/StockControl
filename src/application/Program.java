@@ -17,7 +17,7 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 		List<Product> list = new ArrayList<>();
 		ProductService service = new ProductService(list, sc);
-		Menu menu = new Menu(service);
+		Menu menu = new Menu();
 		
 		String option = "";
 

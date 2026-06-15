@@ -37,8 +37,11 @@ public class ProductService {
     public void increaseQuantity() {
 
         System.out.println();
+        showProductsForSelection();
+        System.out.println();
+        
         int productId = readInt("Digite o ID do produto: ");
-
+        
         Product p = findProductById(productId);
 
         if (p == null) {
@@ -54,8 +57,11 @@ public class ProductService {
     }
 
     public void decreaseQuantity() {
-
+    	
+    	System.out.println();
+        showProductsForSelection();
         System.out.println();
+        
         int productId = readInt("Digite o ID do produto: ");
 
         Product p = findProductById(productId);
@@ -77,8 +83,11 @@ public class ProductService {
     }
 
     public void deleteProduct() {
-
+    	
+    	System.out.println();
+        showProductsForSelection();
         System.out.println();
+        
         int productId = readInt("Digite o ID do produto que deseja excluir: ");
 
         Product p = findProductById(productId);
@@ -97,6 +106,11 @@ public class ProductService {
         System.out.println();
         System.out.println("Lista de produtos cadastrados:");
         System.out.println();
+        
+        if(productList.isEmpty()) {
+        	System.out.println("Nenhum produto cadastrado.");
+        	return;
+        }
 
         for (Product p : productList) {
             System.out.println(p);
@@ -164,5 +178,22 @@ public class ProductService {
         }
 
         return category;
+    }
+    
+    private void showProductsForSelection() {
+
+        if (productList.isEmpty()) {
+            System.out.println("Nenhum produto cadastrado.");
+            return;
+        }
+
+        System.out.println();
+        System.out.println("Lista de produtos cadastrados:");
+        System.out.println();
+
+        for (Product p : productList) {
+            System.out.println(p);
+        }
+        
     }
 }

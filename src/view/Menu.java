@@ -1,16 +1,9 @@
 package view;
 
-import service.ProductService;
 
 public class Menu {
 	
-	private ProductService service;
-	
-	public Menu(ProductService service) {
-		this.service = service;
-	}
-	
-	public static void displayMenu() {
+	public void displayMenu() {
 		
 		System.out.println("------------------------------");
 		System.out.println("----- CONTROLE DE ESTOQUE ----");
